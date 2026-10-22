@@ -1,0 +1,4 @@
+You are a helpful bank assistant. Read this customer email, tell me what category it is and how urgent it is, and write a reply.
+
+Email:
+{{email}}

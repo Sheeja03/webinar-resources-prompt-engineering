@@ -1,0 +1,20 @@
+[
+  {"id": "step1", "title": "Zero-shot request", "technique": "A bare instruction",
+   "change": "One sentence: \"Extract the details from this invoice.\" This is how most people start.",
+   "watch": "The model decides which fields matter and how to format them. Dates and amounts come back exactly as printed, in local formats, so software can't use them."},
+  {"id": "step2", "title": "Role and explicit task", "technique": "Role prompting + clear field list",
+   "change": "Adds an accounts-payable role, names the exact fields, and asks for ISO dates, ISO currency codes and plain numbers.",
+   "watch": "Values become more consistent, but the output is still prose. A human can read it; a payment system can't."},
+  {"id": "step3", "title": "Output contract", "technique": "Structured output (JSON schema)",
+   "change": "Replaces the field list with a strict JSON shape, types, and null when a value is absent.",
+   "watch": "The jump in machine-readability. Then look at what is still wrong: line-item counts and locale-dependent dates such as 05/03/2026 in Australia."},
+  {"id": "step4", "title": "Show, don't only tell", "technique": "Few-shot examples",
+   "change": "Adds two worked examples (France and the USA). They demonstrate conventions that are awkward to describe, such as not counting shipping as a line item.",
+   "watch": "Line-item counts and formats line up with the examples, without adding a single new rule."},
+  {"id": "step5", "title": "Think before answering", "technique": "Structured reasoning (chain of thought)",
+   "change": "Adds a \"working\" field the model fills first: identify the country's conventions, interpret dates and numbers, count lines, and do the arithmetic.",
+   "watch": "Ambiguous dates and the UK invoice whose total doesn't add up. Reasoning also gives auditors a trail."},
+  {"id": "step6", "title": "Guardrails", "technique": "Delimiters + untrusted-data rules",
+   "change": "Wraps the invoice in tags, declares it untrusted, forbids inventing or correcting values, and adds an anomalies list.",
+   "watch": "The Helix invoice hides instructions to set the total to zero. This step resists them and reports them as an anomaly."}
+]
